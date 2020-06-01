@@ -1,11 +1,13 @@
 
-# **SeetaFace2**
+# **华中科技大学计算机科学与技术学院**
+# **机器学习课程结课项目-人脸识别系统**
 
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](LICENSE)
 
 [中文](./README.md) [English](./README_en.md)
 
-## 1. 简介
+## 1. 中科视拓开源框架介绍
+本项目使用基于C++的人脸识别引擎SeetFace2进行人脸检测和特征提取  
 `SeetaFace2` 人脸识别引擎包括了搭建一套全自动人脸识别系统所需的三个核心模块，即：人脸检测模块 `FaceDetector`、面部关键点定位模块 `FaceLandmarker` 以及人脸特征提取与比对模块 `FaceRecognizer`。
 已经两个辅助模块 `FaceTracker` 和 `QualityAssessor` 用于人脸跟踪和质量评估。
 
@@ -79,15 +81,12 @@ SeetaFace2 是面向于人脸识别商业落地的里程碑版本，其中人脸
 知人识面辩万物，开源赋能共发展。`SeetaFace2` 致力于 AI 赋能发展，和行业伙伴一起共同推进人脸识别技术的落地。
 
 
-## 2. 编译
+## 2. 编译(该项目只能在Linux平台上编译）
 ### 2.1 编译依赖
 + 编译工具
   + For linux
     - GNU Make 工具
     - GCC 或者 Clang 编译器
-  + For windows
-    - [MSVC](http://msdn.microsoft.com/zh-cn/vstudio) 或者 MinGW. 
-  - [CMake](http://www.cmake.org/)
 + 依赖库
   - [可选] [OpneCV](http://opencv.org/) 仅编译例子时需要
 + 依赖架构
@@ -123,7 +122,7 @@ SeetaFace2 是面向于人脸识别商业落地的里程碑版本，其中人脸
 
   - 运行例子
     + 把生成库的目录加入到变量 LD_LIBRARY_PATH 中
- 
+
             export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/bin
 
     + 拷贝模型文件到程序执行目录的 model 目录下
@@ -149,156 +148,16 @@ SeetaFace2 是面向于人脸识别商业落地的里程碑版本，其中人脸
             cd bin
             ./search
 
-#### 2.3.2 windows 平台编译说明
-  - 使用 cmake-gui.exe 工具编译。打开 cmake-gui.exe
-  - 命令行编译
-    + 把 cmake 命令所在目录加入到环境变量 PATH 中
-    + 从开始菜单打开 “VS2015开发人员命令提示”，进入命令行
-
-      - 编译
-
-            cd SeetaFace2
-            mkdir build
-            cd build
-            cmake .. -G"Visual Studio 14 2015" \
-                  -DCMAKE_INSTALL_PREFIX=install \
-                  -DCMAKE_BUILD_TYPE=Release \
-                  -DBUILD_EXAMPLE=OFF # 如果有 OpneCV，则设置为 ON
-            #-G: 设置产生器。注意产生器要与你的MSVC工具配套 
-            cmake --build . --config Release 
-            
-
-      - 安装
-
-            cmake --build . --config Release --target install
-
-      - 运行例子
-        + 拷贝模型文件到程序执行目录的 model 目录下
-
-                cd SeetaFace2
-                cd build
-                cd bin
-                mkdir model
-                cp fd_2_00.dat pd_2_00_pts5.dat pd_2_00_pts81.dat .
-
-        + 执行 bin 目录下的程序
-          - points81
-          - search
-
-#### 2.3.3 Android平台编译说明
-+ 安装 ndk 编译工具
-  - 从  https://developer.android.com/ndk/downloads 下载 ndk，并安装到：/home/android-ndk
-  - 设置环境变量：
-
-        export ANDROID_NDK=/home/android-ndk
-
-+ 编译
-  - 主机是 linux
-
-    - 编译
-
-            cd SeetaFace2
-            mkdir build
-            cd build
-            cmake .. -DCMAKE_INSTALL_PREFIX=install \
-                  -DCMAKE_BUILD_TYPE=MinSizeRel \
-                  -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
-                  -DANDROID_ABI="armeabi-v7a with NEON" \
-                  -DANDROID_PLATFORM=android-24 \
-                  -DBUILD_EXAMPLE=OFF # 如果有OpenCV，则设置为ON
-            cmake --build . --config MinSizeRel
-
-    - 安装
-
-            cmake --build . --config MinSizeRel --target install/strip
-
-  - 主机是 windows
-    - windows控制台
-      - 编译
-
-            cd SeetaFace2
-            mkdir build
-            cd build
-            cmake .. -DCMAKE_INSTALL_PREFIX=%cd%\install ^
-                  -G"Unix Makefiles" ^
-                  -DCMAKE_BUILD_TYPE=MinSizeRel ^
-                  -DCMAKE_TOOLCHAIN_FILE=%ANDROID_NDK%/build/cmake/android.toolchain.cmake ^
-                  -DCMAKE_MAKE_PROGRAM=%ANDROID_NDK%/prebuilt/windows-x86_64/bin/make.exe ^
-                  -DANDROID_ABI=arm64-v8a ^
-                  -DANDROID_ARM_NEON=ON ^
-                   -DANDROID_PLATFORM=android-24 ^
-                  -DBUILD_EXAMPLE=OFF : 如果有 OpenCV，则设置为ON
-            cmake --build . --config MinSizeRel
-
-      - 安装
-
-            cmake --build . --config MinSizeRel --target install/strip
-
-    - msys2 或 cygwin
-    
-            cd SeetaFace2
-            mkdir build
-            cd build
-            cmake .. -DCMAKE_INSTALL_PREFIX=install \
-                  -G"Unix Makefiles" \
-                  -DCMAKE_BUILD_TYPE=MinSizeRel \
-                  -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK}/build/cmake/android.toolchain.cmake \
-                  -DCMAKE_MAKE_PROGRAM=${ANDROID_NDK}/prebuilt/windows-x86_64/bin/make.exe \
-                  -DANDROID_ABI=arm64-v8a \
-                  -DANDROID_ARM_NEON=ON \
-                  -DANDROID_PLATFORM=android-24 \
-                  -DBUILD_EXAMPLE=OFF # 如果有 OpenCV，则设置为ON
-            cmake --build . --config MinSizeRel
-
-       - 安装
-
-            cmake --build . --config MinSizeRel --target install/strip
-
-  - 参数说明：https://developer.android.google.cn/ndk/guides/cmake
-    + ANDROID_ABI: 可取下列值：
-      目标 ABI。如果未指定目标 ABI，则 CMake 默认使用 armeabi-v7a。  
-      有效的目标名称为：
-      - armeabi：带软件浮点运算并基于 ARMv5TE 的 CPU。
-      - armeabi-v7a：带硬件 FPU 指令 (VFPv3_D16) 并基于 ARMv7 的设备。
-      - armeabi-v7a with NEON：与 armeabi-v7a 相同，但启用 NEON 浮点指令。这相当于设置 -DANDROID_ABI=armeabi-v7a 和 -DANDROID_ARM_NEON=ON。
-      - arm64-v8a：ARMv8 AArch64 指令集。
-      - x86：IA-32 指令集。
-      - x86_64 - 用于 x86-64 架构的指令集。
-    + ANDROID_NDK <path> 主机上安装的 NDK 根目录的绝对路径
-    + ANDROID_PLATFORM: 如需平台名称和对应 Android 系统映像的完整列表，请参阅 [Android NDK 原生 API](https://developer.android.google.cn/ndk/guides/stable_apis.html)
-    + ANDROID_ARM_MODE
-    + ANDROID_ARM_NEON
-    + ANDROID_STL: 指定 CMake 应使用的 STL。默认情况下，CMake 使用 c++_static。 
-      - c++_shared: 使用 libc++ 动态库
-      - c++_static: 使用 libc++ 静态库
-      - none: 没有 C++ 库支持
-      - system: 用系统的 STL 
-
-### 2.3.4 IOS 平台编译说明
-> 以实体机为例
-
-+ 环境准备
-  - 需要 MacOS 的 PC。
-  - git 下载源代码。
-
-+ 命令行编译
-  + 使用 cmake 编译并安装项目，
-    ```
-    cd SeetaFace2
-    mkdir build
-    cd build
-    chmod +x ../ios/cmake.sh
-    ../ios/cmake.sh -DCMAKE_INSTALL_PREFIX=`pwd`/install
-    make -j4
-    make install
-    ```
-
-    执行完毕后，生成好的静态库将安装到`SeetaFace2/build/install`
-
-  + 编译模拟器版本
-    修改 cmake 指令参数 `../ios/cmake.sh -DIOS_PLATFORM=SIMULATOR64 -DPLATFORM=x64`
-
-  + 查看 `<root>/ios/cmake.sh` 和 `<root>/ios/iOS.cmake` 获取更多编译选项
+    对于以上编译的步骤，我写了一个shell脚本，简化编译的过程，脚本是在bin目录下的compile.sh  
+    所以对于本项目的编译，你只需要cd到bin目录，运行compile.sh脚本就行了
+```shell
+	sudo chmod +x compile.sh
+	./compile.sh
+```
+    然后就可以运行bin目录下的可执行文件了，当然，你还需要准备好opencv的环境
+    另外很重要一点就是在源代码中训练集图片和测试集图片，还有人脸识别底层库的路径我都设置成了绝对路径，这就需要你们将源代码中的路径进行修改为你们自己想要设置的路径，重新编译，然后图片才能成功读取进内存。还有下载下来的模型文件如上面所说的要放在model目录下  
+    不会有人连改下源代码中的图片库路径都做不到吧，不会吧不会吧  
+    芜湖～起飞  
 
 
 ## 3. 目录结构
@@ -306,13 +165,21 @@ SeetaFace2 是面向于人脸识别商业落地的里程碑版本，其中人脸
 
     |-- SeetaFace2<br>
         |-- documents（SDK 接口说明文档）  
-        |-- example（C++ 版本 SDK 示例代码）  
+        |-- example（C++版本SDK实例代码）
+           |--  crop_face		(对图片进行人脸截取）
+           |-- FaceRecognition（机器学习结课项目源代码，C++）
+           |-- points81		（81点人脸检测）
+           |-- propse	（不知道）
+           |-- search	（完整的人脸识别系统）
+           |-- SeetaExample	（不知道）
+           |-- test	（我写的测试代码文件）
+           |-- tracking	（不知道）
+           |-- CMakeList.txt	（example目录下的编译列表）
         |-- FaceDetector（人脸检测模块）  
         |-- FaceLandmarker（特征点定位模块）  
         |-- FaceRecognizer（人脸特征提取和比对模块）  
         |-- SeetaNet（前向计算框架模块）  
 
-    
 ## 4. 模型下载
 - 人脸检测模块 FaceDetector 模型下载链接：  
 MD5     ：E88669E5F1301CA56162DE8AEF1FD5D5  
@@ -334,33 +201,5 @@ MD5     ：2D637AAD8B1B7AE62154A877EC291C99
 百度网盘：https://pan.baidu.com/s/1y2vh_BHtYftR24V4xwAVWg 提取码：pim2  
 Dropbox : https://www.dropbox.com/s/6aslqcokpljha5j/fr_2_10.dat?dl=0
 
-## 5. 示例 
-### 5.1 本项目自带示例
-
-`example/search/example.cpp` 示例展示了一套简单且完整的人脸识别的流程，包括：  
-  1. 预注册图像中的人脸到人脸识别底库中（example 中默认注册了"1.jpg"中的人脸）；
-  2. 打开摄像头，检测摄像头画面中的人脸；3.对检测到人脸进行识别，确定所属人脸的身份。
-
-测试者如果想在底库中成功识别出自己的人脸，需要在example.cpp的底库注册列表部分添加以自己名称命名的图片(名称 + .jpg)，
-并把自己名称命名的图片文件拷贝到程序的运行目录下，重新编译 example 并运行程序，测试识别效果即可。
-
-### 5.2 已使用本项目的其它项目
-
-- FaceRecognizer: https://github.com/KangLin/FaceRecognizer
-- SeetaFace2AndroidDemo: https://github.com/xiaoxiaoazhang/SeetaFace2AndroidDemo
-
-## 6. 开发者社区
-欢迎开发者加入 SeetaFace 开发者社区，请先加 SeetaFace 小助手微信，经过审核后邀请入群。
-
-![QR](./asserts/QR.png)
-
-## 6.1 代码贡献
-欢迎开发者贡献优质代码，所有开发者代码需提交在`develop`分支。
-
-## 7. 商业合作
-想要购买 `SeetaFace` 商业版引擎以获得精度更高、速度更快的人脸识别算法或活体验证、表情识别、心率估计、姿态估计、视线追踪等更多人脸分析模块支持，请联系商务邮件 bd@seetatech.com。
-
-## 8. 开源协议
-
-`SeetaFace2` 依照 [BSD 2-Clause license](LICENSE) 开源.
-
+## 5. FaceRecognition
+FaceRecognition是我这学期机器学习课程的结课项目，因为疫情，原本的考试改为了大作业形式，对我来说求之不得，毕竟做课设比复习考试有意思多了。
