@@ -1,0 +1,15 @@
+prefix=/home/hustccc/SeetaFace2/build/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: SeetaFaceLandmarker
+Description: SeetaFaceLandmarker module
+Version: a587833
+Requires: SeetaNet
+Requires.private: 
+Conflicts:
+Libs: -L${libdir} SeetaFaceLandmarker
+Libs.private: 
+Cflags: -I${includedir}
+

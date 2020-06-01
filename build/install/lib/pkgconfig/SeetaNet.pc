@@ -1,0 +1,14 @@
+prefix=/home/hustccc/SeetaFace2/build/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: SeetaNet
+Description: SeetaNet module
+Version: a587833
+Requires:
+Requires.private: 
+Conflicts:
+Libs: -L${libdir} SeetaNet pthread 
+Libs.private: 
+Cflags: -I${includedir} 

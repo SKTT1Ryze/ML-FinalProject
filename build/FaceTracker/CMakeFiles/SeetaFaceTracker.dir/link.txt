@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libSeetaFaceTracker.so.a587833 -o ../bin/libSeetaFaceTracker.so.a587833 CMakeFiles/SeetaFaceTracker.dir/src/seeta/FaceTracker.cpp.o  -Wl,-rpath,/home/hustccc/SeetaFace2/build/bin: ../bin/libSeetaFaceDetector.so.a587833 ../bin/libSeetaNet.so.a587833 -lpthread 

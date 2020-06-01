@@ -1,0 +1,14 @@
+prefix=/home/hustccc/SeetaFace2/build/install
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: SeetaQualityAssessor
+Description: SeetaQualityAssessor module
+Version: a587833
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir} SeetaQualityAssessor
+Libs.private: 
+Cflags: -I${includedir}
