@@ -82,6 +82,7 @@ SeetaFace2 是面向于人脸识别商业落地的里程碑版本，其中人脸
 
 
 ## 2. 编译(该项目只能在Linux平台上编译）
+在编译之前，将该项目文件夹名称(ML-FinalProject)改为(SeetaFace2)
 ### 2.1 编译依赖
 + 编译工具
   + For linux

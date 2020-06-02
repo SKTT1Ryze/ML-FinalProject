@@ -8,12 +8,12 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 # Import target "SeetaFace::SeetaQualityAssessor" for configuration "Release"
 set_property(TARGET SeetaFace::SeetaQualityAssessor APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(SeetaFace::SeetaQualityAssessor PROPERTIES
-  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/libSeetaQualityAssessor.so.a587833"
-  IMPORTED_SONAME_RELEASE "libSeetaQualityAssessor.so.a587833"
+  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/libSeetaQualityAssessor.so.a6e9ef3"
+  IMPORTED_SONAME_RELEASE "libSeetaQualityAssessor.so.a6e9ef3"
   )
 
 list(APPEND _IMPORT_CHECK_TARGETS SeetaFace::SeetaQualityAssessor )
-list(APPEND _IMPORT_CHECK_FILES_FOR_SeetaFace::SeetaQualityAssessor "${_IMPORT_PREFIX}/lib/libSeetaQualityAssessor.so.a587833" )
+list(APPEND _IMPORT_CHECK_FILES_FOR_SeetaFace::SeetaQualityAssessor "${_IMPORT_PREFIX}/lib/libSeetaQualityAssessor.so.a6e9ef3" )
 
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)

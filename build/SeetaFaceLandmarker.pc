@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: SeetaFaceLandmarker
 Description: SeetaFaceLandmarker module
-Version: a587833
+Version: a6e9ef3
 Requires: SeetaNet
 Requires.private: 
 Conflicts:

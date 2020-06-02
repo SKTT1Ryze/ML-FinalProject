@@ -37,8 +37,8 @@ using namespace std;
 #define Parameter_A 2.00
 #define Parameter_C 3.00
 #define Parameter_D 4
-#define Parameter_gama 0.01f
-#define Parameter_R 1.00
+#define Parameter_gama 0.00001f
+#define Parameter_R 2.00
 #define L 40
 #define M 100
 #define TRAINREADNUM 800
@@ -50,7 +50,7 @@ void printFeature(float *feature, int size);
 int WorkMode(int argc, char *argv[]);
 int Mode_1();
 int Mode_1_x();
-int Mode_2();
+int Mode_2(string predictImagePath);
 int Mode_3(string option_1, string option_2);
 int Mode_4();
 int getAbsoluteFiles(string directory, vector<string> &filesAbsolutePath);
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
         break;
     case 2:
         printf("Run bat\n");
-        return_status = Mode_2();
+        return_status = Mode_2(argv[1]);
         break;
     case 3:
         printf("calculate similarity\n");
@@ -714,9 +714,236 @@ int Mode_1_x()
     exit(-1);
     return 0;
 }
-int Mode_2()
+int Mode_2(string predictImagePath)
 {
     //Mode 2
+    //Mode 1 x
+    int i = 0;
+    int j = 0;
+    seeta::ModelSetting::Device device = seeta::ModelSetting::CPU;
+    int id = 0;
+    seeta::ModelSetting FD_model("./model/fd_2_00.dat", device, id);
+    seeta::ModelSetting PD_model("./model/pd_2_00_pts81.dat", device, id);
+    seeta::ModelSetting FR_model("./model/fr_2_10.dat", device, id);
+    seeta::FaceEngine engine(FD_model, PD_model, FR_model, 2, 16);
+
+    clock_t s, t;
+    double time_cost;
+
+    //prepare image store
+    printf("prepare pictures store...\n");
+
+    s = clock();
+    string ImageStoreDir = "/home/hustccc/Pictures/FaceImage/CelebA/img_align_celeba/";
+    vector<string> TrainImagePath;
+    //vector<string> TrainLabels;
+
+    //cout << "size of train image: " << TrainImagePath.size() << endl;
+    //cout << "the first train image: " << TrainImagePath.at(0) << endl;
+
+    char trainfilename[M] = "/home/hustccc/Pictures/FaceImage/CelebA/celeba_train_labels";
+    char temp[M] = {};
+    char block;
+
+    vector<vector<int>> TrainLabels;
+    vector<int> line;
+    FILE *fp = fopen(trainfilename, "r");
+
+    for (i = 0; i < TRAINREADNUM; i++)
+    {
+        line.clear();
+        //cout<<"i: "<<i<<endl;
+        for (j = 0; j < 41; j++)
+        {
+            if (j == 0)
+            {
+                fread(temp, sizeof(char), 10, fp); //read image name
+                TrainImagePath.push_back(temp);
+                //fread(&block,sizeof(char),1,fp);    //read block
+            }
+            else
+            {
+                fread(temp, sizeof(char), 1, fp);
+                if (temp[0] == 49)
+                {
+                    printf("1 ");
+                    line.push_back(1);
+                }
+                else
+                {
+                    printf("0 ");
+                    line.push_back(0);
+                }
+                //fread(&block,sizeof(char),1,fp);    //read block
+            }
+        }
+        fread(&block, sizeof(char), 2, fp); //read block
+        TrainLabels.push_back(line);
+    }
+    fclose(fp);
+    cout << endl;
+    cout << "ImagePathList size: " << TrainImagePath.size() << endl;
+    cout << "LabelsList size: " << TrainLabels.size() << endl;
+    cout << "line size: " << TrainLabels.at(0).size() << endl;
+    for (i = 0; i < TRAINREADNUM; i++)
+    {
+        cout << TrainImagePath.at(i) << ": ";
+        for (j = 0; j < 40; j++)
+        {
+            cout << TrainLabels.at(i).at(j) << " ";
+        }
+        printf("\n");
+    }
+    printf("\n");
+    vector<seeta::cv::ImageData> TrainImageList;
+    vector<SeetaFaceInfo> TrainFaceList;
+    vector<SeetaFaceInfo> tempface;
+    j = 0;
+    for (i = 0; i < TrainImagePath.size(); i++)
+    {
+        //cout << "read image: " << TrainImagePath.at(i) << endl;
+        TrainImageList.push_back(cv::imread(ImageStoreDir + TrainImagePath.at(i)));
+        tempface = engine.DetectFaces(TrainImageList.at(TrainImageList.size() - 1));
+        //cout << "tempface size: " << tempface.size() << endl;
+        if (tempface.size() > 1)
+        {
+            TrainImageList.pop_back();
+            j--;
+            cout << "read image: " << TrainImagePath.at(i) << "... ";
+            printf("more than one face in an image, continue...\n");
+            continue;
+        }
+        else if (tempface.size() == 0)
+        {
+            TrainImageList.pop_back();
+            j--;
+            cout << "read image: " << TrainImagePath.at(i) << "... ";
+            printf("no face , continue...\n");
+            continue;
+        }
+        TrainFaceList.push_back(tempface.at(0));
+        //TrainLabels.push_back(TrainImagePath.at(i).substr(TrainImagePath.at(i).size() - 7, 3));
+        //TrainLabels.push_back(TrainImagePath.at(i).substr(TrainImagePath.at(i).size() - 5, 1));
+    }
+    cout << "train data size: " << TrainFaceList.size() << endl;
+    cout << "Train Image List size: " << TrainImageList.size() << endl;
+    cout << "Train Faces List size: " << TrainFaceList.size() << endl;
+
+    if (TrainImageList.size() != TrainFaceList.size())
+    {
+        printf("something wrong...exit\n");
+        exit(-1);
+    }
+
+    vector<vector<SeetaPointF>> TrainPointList;
+    for (i = 0; i < TrainImageList.size(); i++)
+    {
+        TrainPointList.push_back(engine.DetectPoints(TrainImageList.at(i), TrainFaceList.at(i)));
+    }
+    //cout << "Train Points List size: " << TrainPointList.size() << endl;
+    //cout << "the size of first points: " << TrainPointList.at(0).size() << endl;
+
+    //get features of image in store
+    printf("get features of image in store...\n");
+    //seeta::FaceRecognizer FR(seeta::ModelSetting("./model/fr_2_10.dat"));
+    seeta::FaceRecognizer FR(FR_model);
+    vector<float *> TrainFeatureList;
+    float *temp_float;
+    for (i = 0; i < TrainPointList.size(); i++)
+    {
+        //temp_float = (float *)malloc(sizeof(float) * FR.GetExtractFeatureSize());
+        temp_float = new float[sizeof(float) * FR.GetExtractFeatureSize()];
+        if (temp_float == NULL)
+        {
+            printf("new space error\n");
+            exit(-1);
+        }
+        TrainFeatureList.push_back(temp_float);
+    }
+    for (i = 0; i < TrainPointList.size(); i++)
+    {
+        FR.Extract(TrainImageList.at(i), TrainPointList.at(i).data(), TrainFeatureList.at(i));
+    }
+
+    cout << "Train Features List size: " << TrainFeatureList.size() << endl;
+
+    //cout << "the first train feature:" << endl;
+    //printFeature(TrainFeatureList.at(0), FR.GetExtractFeatureSize());
+    //cout << "the second train feature:" << endl;
+    //printFeature(TrainFeatureList.at(1), FR.GetExtractFeatureSize());
+    t = clock();
+    time_cost = (double)(t - s) / CLOCKS_PER_SEC;
+    printf("prepare train image finish, cost: %f\n", time_cost);
+
+
+    //prepare test image
+    printf("prepare predict image...\n");
+
+    s = clock();
+
+    seeta::cv::ImageData predictImage;
+    vector<SeetaFaceInfo> predictFace;
+    predictImage=cv::imread(predictImagePath);
+    predictFace=engine.DetectFaces(predictImage);
+    if(predictFace.size()!=1)
+    {
+        printf("no face or more than one face...exit...\n");
+        exit(-1);
+    }
+    
+    //vector<vector<SeetaPointF>> predictPoint;
+    //predictPoint.push_back(engine.DetectPoints(predictImage,predictFace.at(0)));
+    vector<SeetaPointF> predictPoint;
+    predictPoint=engine.DetectPoints(predictImage,predictFace.at(0));
+
+    //get features of test image
+    printf("get features of predict image ...\n");
+    seeta::FaceRecognizer FM(FR_model);
+    vector<float *> predictFeatureList;
+    temp_float = new float[FM.GetExtractFeatureSize() * sizeof(float)];
+    if (temp_float == NULL)
+    {
+        printf("new space error\n");
+        exit(-1);
+    }
+    predictFeatureList.push_back(temp_float);
+    
+    FM.Extract(predictImage, predictPoint.data(), predictFeatureList.at(0));
+
+    cout << "Test Features List size: " << predictFeatureList.size() << endl;
+    //cout << "the first test feature:" << endl;
+    //printFeature(TestFeatureList.at(0), FM.GetExtractFeatureSize());
+    //cout << "the second test feature:" << endl;
+    //printFeature(TestFeatureList.at(1), FM.GetExtractFeatureSize());
+    t = clock();
+    time_cost = (double)(t - s) / CLOCKS_PER_SEC;
+    printf("prepare predict image finish, cost: %f\n", time_cost);
+
+    printf("predict with knn...\n");
+    s = clock();
+    vector<vector<int>> PredictResult;
+    int k = 3;
+    PredictResult = KNNClassifier_x(TrainFeatureList, TrainLabels, predictFeatureList, FM.GetExtractFeatureSize(), k);
+    //printf("ok here\n");
+    t = clock();
+    time_cost = (double)(t - s) / CLOCKS_PER_SEC;
+    cout << "predict finish , cost: " << time_cost << endl;
+    cout << "predict result: " << endl;
+    for (j = 0; j < PredictResult.at(0).size(); j++)
+        cout << PredictResult.at(0).at(j) << " ";
+    printf("\n");   
+    vector<string> LabelsList={"5_o_Clock_Shadow", "Arched_Eyebrows", "Attractive", "Bags_Under_Eyes", "Bald", "Bangs", "Big_Lips", "Big_Nose", "Black_Hair", "Blond_Hair", "Blurry", "Brown_Hair", " Bushy_Eyebrows", "Chubby", "Double_Chin", "Eyeglasses", "Goatee", "Gray_Hair", "Heavy_Makeup", "High_Cheekbones", "Male", "Mouth_Slightly_Open", "Mustache", "Narrow_Eyes", "No_Beard", "Oval_Face", "Pale_Skin", "Pointy_Nose", "Receding_Hairline", "Rosy_Cheeks", "Sideburns", "Smiling", "Straight_Hair", "Wavy_Hair", "Wearing_Earrings", "Wearing_Hat", "Wearing_Lipstick", "Wearing_Necklace", "Wearing_Necktie", "Young"};
+    cout<<"LabelsList size: "<<LabelsList.size()<<endl;
+    for(i=0;i<LabelsList.size();i++)
+    {
+        if(PredictResult.at(0).at(i))
+            cout<<LabelsList.at(i)<<"  ";
+    }
+    printf("\n");
+
+    exit(-1);
+
+    
     return 0;
 }
 
@@ -1071,12 +1298,12 @@ vector<vector<int>> KNNClassifier_x(vector<float *> train_data, vector<vector<in
 
     for (i = 0; i < test_data.size(); i++)
         for (j = 0; j < train_data.size(); j++)
-            DistList.at(i).at(j) = EuclideanDist(test_data.at(i), train_data.at(j), feature_length);
+            //DistList.at(i).at(j) = EuclideanDist(test_data.at(i), train_data.at(j), feature_length);
             //DistList.at(i).at(j) = ManhanttenDist(test_data.at(i), train_data.at(j), feature_length);
             //DistList.at(i).at(j) = KernelDist_1(test_data.at(i), train_data.at(j),c, feature_length);
             //DistList.at(i).at(j) = KernelDist_2(test_data.at(i), train_data.at(j), a,c,d, feature_length);
             //DistList.at(i).at(j) = KernelDist_3(test_data.at(i), train_data.at(j), gama, feature_length);
-            //DistList.at(i).at(j) = KernelDist_4(test_data.at(i), train_data.at(j), gama, r, feature_length);
+            DistList.at(i).at(j) = KernelDist_4(test_data.at(i), train_data.at(j), gama, r, feature_length);
     //printf("log\n");
     for (i = 0; i < DistList.size(); i++)
     {
@@ -1102,7 +1329,7 @@ vector<vector<int>> KNNClassifier_x(vector<float *> train_data, vector<vector<in
         cout << endl;
     }
     */
-    printf("predict finish\n");
+    //printf("predict finish\n");
     return predict_result;
 }
 

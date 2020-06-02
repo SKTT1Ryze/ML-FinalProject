@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "../../bin/crop_face"
-  "../../bin/crop_face-a587833"
+  "../../bin/crop_face-a6e9ef3"
   "../../bin/crop_face.pdb"
   "CMakeFiles/crop_face.dir/example.cpp.o"
 )
