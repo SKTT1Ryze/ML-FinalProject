@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "../bin/libSeetaFaceRecognizer.pdb"
   "../bin/libSeetaFaceRecognizer.so"
-  "../bin/libSeetaFaceRecognizer.so.a6e9ef3"
+  "../bin/libSeetaFaceRecognizer.so.11d9063"
   "CMakeFiles/SeetaFaceRecognizer.dir/seeta/FaceRecognizerPrivate.cpp.o"
   "CMakeFiles/SeetaFaceRecognizer.dir/seeta/ImageProcess.cpp.o"
   "CMakeFiles/SeetaFaceRecognizer.dir/seeta/SeetaNetParseProto.cpp.o"

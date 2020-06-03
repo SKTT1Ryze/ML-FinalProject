@@ -39,7 +39,7 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/search-a6e9ef3"
+      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/search-11d9063"
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/search"
       )
     if(EXISTS "${file}" AND
@@ -50,11 +50,11 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     endif()
   endforeach()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES
-    "/home/hustccc/SeetaFace2/build/bin/search-a6e9ef3"
+    "/home/hustccc/SeetaFace2/build/bin/search-11d9063"
     "/home/hustccc/SeetaFace2/build/bin/search"
     )
   foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/search-a6e9ef3"
+      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/search-11d9063"
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/search"
       )
     if(EXISTS "${file}" AND

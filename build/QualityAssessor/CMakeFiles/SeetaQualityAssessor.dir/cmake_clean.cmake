@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "../bin/libSeetaQualityAssessor.pdb"
   "../bin/libSeetaQualityAssessor.so"
-  "../bin/libSeetaQualityAssessor.so.a6e9ef3"
+  "../bin/libSeetaQualityAssessor.so.11d9063"
   "CMakeFiles/SeetaQualityAssessor.dir/seeta/ImageProcess.cpp.o"
   "CMakeFiles/SeetaQualityAssessor.dir/seeta/common_alignment.cpp.o"
   "CMakeFiles/SeetaQualityAssessor.dir/seeta/graphics2d.cpp.o"
