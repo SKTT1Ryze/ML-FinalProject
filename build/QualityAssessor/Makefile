@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Command-line flag to silence nested $(MAKE).
+$(VERBOSE)MAKESILENT = -s
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -97,38 +100,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -141,16 +112,48 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/hustccc/SeetaFace2/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles /home/hustccc/SeetaFace2/build/QualityAssessor/CMakeFiles/progress.marks
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 QualityAssessor/all
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 QualityAssessor/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 QualityAssessor/clean
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 QualityAssessor/clean
 .PHONY : clean
 
 # The main clean target
@@ -160,12 +163,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 QualityAssessor/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 QualityAssessor/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 QualityAssessor/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 QualityAssessor/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -175,7 +178,7 @@ depend:
 
 # Convenience name for target.
 QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/rule:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/rule
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/rule
 .PHONY : QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/rule
 
 # Convenience name for target.
@@ -185,7 +188,7 @@ SeetaQualityAssessor: QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/rule
 
 # fast build rule for target.
 SeetaQualityAssessor/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build
 .PHONY : SeetaQualityAssessor/fast
 
 seeta/ImageProcess.o: seeta/ImageProcess.cpp.o
@@ -194,7 +197,7 @@ seeta/ImageProcess.o: seeta/ImageProcess.cpp.o
 
 # target to build an object file
 seeta/ImageProcess.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/ImageProcess.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/ImageProcess.cpp.o
 .PHONY : seeta/ImageProcess.cpp.o
 
 seeta/ImageProcess.i: seeta/ImageProcess.cpp.i
@@ -203,7 +206,7 @@ seeta/ImageProcess.i: seeta/ImageProcess.cpp.i
 
 # target to preprocess a source file
 seeta/ImageProcess.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/ImageProcess.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/ImageProcess.cpp.i
 .PHONY : seeta/ImageProcess.cpp.i
 
 seeta/ImageProcess.s: seeta/ImageProcess.cpp.s
@@ -212,7 +215,7 @@ seeta/ImageProcess.s: seeta/ImageProcess.cpp.s
 
 # target to generate assembly for a file
 seeta/ImageProcess.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/ImageProcess.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/ImageProcess.cpp.s
 .PHONY : seeta/ImageProcess.cpp.s
 
 seeta/common_alignment.o: seeta/common_alignment.cpp.o
@@ -221,7 +224,7 @@ seeta/common_alignment.o: seeta/common_alignment.cpp.o
 
 # target to build an object file
 seeta/common_alignment.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/common_alignment.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/common_alignment.cpp.o
 .PHONY : seeta/common_alignment.cpp.o
 
 seeta/common_alignment.i: seeta/common_alignment.cpp.i
@@ -230,7 +233,7 @@ seeta/common_alignment.i: seeta/common_alignment.cpp.i
 
 # target to preprocess a source file
 seeta/common_alignment.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/common_alignment.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/common_alignment.cpp.i
 .PHONY : seeta/common_alignment.cpp.i
 
 seeta/common_alignment.s: seeta/common_alignment.cpp.s
@@ -239,7 +242,7 @@ seeta/common_alignment.s: seeta/common_alignment.cpp.s
 
 # target to generate assembly for a file
 seeta/common_alignment.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/common_alignment.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/common_alignment.cpp.s
 .PHONY : seeta/common_alignment.cpp.s
 
 seeta/graphics2d.o: seeta/graphics2d.cpp.o
@@ -248,7 +251,7 @@ seeta/graphics2d.o: seeta/graphics2d.cpp.o
 
 # target to build an object file
 seeta/graphics2d.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/graphics2d.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/graphics2d.cpp.o
 .PHONY : seeta/graphics2d.cpp.o
 
 seeta/graphics2d.i: seeta/graphics2d.cpp.i
@@ -257,7 +260,7 @@ seeta/graphics2d.i: seeta/graphics2d.cpp.i
 
 # target to preprocess a source file
 seeta/graphics2d.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/graphics2d.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/graphics2d.cpp.i
 .PHONY : seeta/graphics2d.cpp.i
 
 seeta/graphics2d.s: seeta/graphics2d.cpp.s
@@ -266,7 +269,7 @@ seeta/graphics2d.s: seeta/graphics2d.cpp.s
 
 # target to generate assembly for a file
 seeta/graphics2d.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/graphics2d.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/seeta/graphics2d.cpp.s
 .PHONY : seeta/graphics2d.cpp.s
 
 src/ClarityQuality.o: src/ClarityQuality.cpp.o
@@ -275,7 +278,7 @@ src/ClarityQuality.o: src/ClarityQuality.cpp.o
 
 # target to build an object file
 src/ClarityQuality.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/ClarityQuality.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/ClarityQuality.cpp.o
 .PHONY : src/ClarityQuality.cpp.o
 
 src/ClarityQuality.i: src/ClarityQuality.cpp.i
@@ -284,7 +287,7 @@ src/ClarityQuality.i: src/ClarityQuality.cpp.i
 
 # target to preprocess a source file
 src/ClarityQuality.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/ClarityQuality.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/ClarityQuality.cpp.i
 .PHONY : src/ClarityQuality.cpp.i
 
 src/ClarityQuality.s: src/ClarityQuality.cpp.s
@@ -293,7 +296,7 @@ src/ClarityQuality.s: src/ClarityQuality.cpp.s
 
 # target to generate assembly for a file
 src/ClarityQuality.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/ClarityQuality.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/ClarityQuality.cpp.s
 .PHONY : src/ClarityQuality.cpp.s
 
 src/PoseQuality.o: src/PoseQuality.cpp.o
@@ -302,7 +305,7 @@ src/PoseQuality.o: src/PoseQuality.cpp.o
 
 # target to build an object file
 src/PoseQuality.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/PoseQuality.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/PoseQuality.cpp.o
 .PHONY : src/PoseQuality.cpp.o
 
 src/PoseQuality.i: src/PoseQuality.cpp.i
@@ -311,7 +314,7 @@ src/PoseQuality.i: src/PoseQuality.cpp.i
 
 # target to preprocess a source file
 src/PoseQuality.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/PoseQuality.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/PoseQuality.cpp.i
 .PHONY : src/PoseQuality.cpp.i
 
 src/PoseQuality.s: src/PoseQuality.cpp.s
@@ -320,7 +323,7 @@ src/PoseQuality.s: src/PoseQuality.cpp.s
 
 # target to generate assembly for a file
 src/PoseQuality.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/PoseQuality.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/PoseQuality.cpp.s
 .PHONY : src/PoseQuality.cpp.s
 
 src/QualityAssessor.o: src/QualityAssessor.cpp.o
@@ -329,7 +332,7 @@ src/QualityAssessor.o: src/QualityAssessor.cpp.o
 
 # target to build an object file
 src/QualityAssessor.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/QualityAssessor.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/QualityAssessor.cpp.o
 .PHONY : src/QualityAssessor.cpp.o
 
 src/QualityAssessor.i: src/QualityAssessor.cpp.i
@@ -338,7 +341,7 @@ src/QualityAssessor.i: src/QualityAssessor.cpp.i
 
 # target to preprocess a source file
 src/QualityAssessor.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/QualityAssessor.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/QualityAssessor.cpp.i
 .PHONY : src/QualityAssessor.cpp.i
 
 src/QualityAssessor.s: src/QualityAssessor.cpp.s
@@ -347,7 +350,7 @@ src/QualityAssessor.s: src/QualityAssessor.cpp.s
 
 # target to generate assembly for a file
 src/QualityAssessor.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/QualityAssessor.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/src/QualityAssessor.cpp.s
 .PHONY : src/QualityAssessor.cpp.s
 
 # Help Target

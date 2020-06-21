@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Command-line flag to silence nested $(MAKE).
+$(VERBOSE)MAKESILENT = -s
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -73,17 +76,6 @@ CMAKE_BINARY_DIR = /home/hustccc/SeetaFace2/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -108,27 +100,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -141,16 +112,48 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/hustccc/SeetaFace2/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles /home/hustccc/SeetaFace2/build/FaceLandmarker/CMakeFiles/progress.marks
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceLandmarker/all
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceLandmarker/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceLandmarker/clean
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceLandmarker/clean
 .PHONY : clean
 
 # The main clean target
@@ -160,12 +163,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceLandmarker/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceLandmarker/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceLandmarker/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceLandmarker/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -175,7 +178,7 @@ depend:
 
 # Convenience name for target.
 FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/rule:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/rule
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/rule
 .PHONY : FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/rule
 
 # Convenience name for target.
@@ -185,7 +188,7 @@ SeetaFaceLandmarker: FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/rule
 
 # fast build rule for target.
 SeetaFaceLandmarker/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build
 .PHONY : SeetaFaceLandmarker/fast
 
 seeta/FaceLandmarkerPrivate.o: seeta/FaceLandmarkerPrivate.cpp.o
@@ -194,7 +197,7 @@ seeta/FaceLandmarkerPrivate.o: seeta/FaceLandmarkerPrivate.cpp.o
 
 # target to build an object file
 seeta/FaceLandmarkerPrivate.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/FaceLandmarkerPrivate.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/FaceLandmarkerPrivate.cpp.o
 .PHONY : seeta/FaceLandmarkerPrivate.cpp.o
 
 seeta/FaceLandmarkerPrivate.i: seeta/FaceLandmarkerPrivate.cpp.i
@@ -203,7 +206,7 @@ seeta/FaceLandmarkerPrivate.i: seeta/FaceLandmarkerPrivate.cpp.i
 
 # target to preprocess a source file
 seeta/FaceLandmarkerPrivate.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/FaceLandmarkerPrivate.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/FaceLandmarkerPrivate.cpp.i
 .PHONY : seeta/FaceLandmarkerPrivate.cpp.i
 
 seeta/FaceLandmarkerPrivate.s: seeta/FaceLandmarkerPrivate.cpp.s
@@ -212,7 +215,7 @@ seeta/FaceLandmarkerPrivate.s: seeta/FaceLandmarkerPrivate.cpp.s
 
 # target to generate assembly for a file
 seeta/FaceLandmarkerPrivate.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/FaceLandmarkerPrivate.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/FaceLandmarkerPrivate.cpp.s
 .PHONY : seeta/FaceLandmarkerPrivate.cpp.s
 
 seeta/ImageProcess.o: seeta/ImageProcess.cpp.o
@@ -221,7 +224,7 @@ seeta/ImageProcess.o: seeta/ImageProcess.cpp.o
 
 # target to build an object file
 seeta/ImageProcess.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/ImageProcess.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/ImageProcess.cpp.o
 .PHONY : seeta/ImageProcess.cpp.o
 
 seeta/ImageProcess.i: seeta/ImageProcess.cpp.i
@@ -230,7 +233,7 @@ seeta/ImageProcess.i: seeta/ImageProcess.cpp.i
 
 # target to preprocess a source file
 seeta/ImageProcess.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/ImageProcess.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/ImageProcess.cpp.i
 .PHONY : seeta/ImageProcess.cpp.i
 
 seeta/ImageProcess.s: seeta/ImageProcess.cpp.s
@@ -239,7 +242,7 @@ seeta/ImageProcess.s: seeta/ImageProcess.cpp.s
 
 # target to generate assembly for a file
 seeta/ImageProcess.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/ImageProcess.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/ImageProcess.cpp.s
 .PHONY : seeta/ImageProcess.cpp.s
 
 seeta/common_alignment.o: seeta/common_alignment.cpp.o
@@ -248,7 +251,7 @@ seeta/common_alignment.o: seeta/common_alignment.cpp.o
 
 # target to build an object file
 seeta/common_alignment.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/common_alignment.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/common_alignment.cpp.o
 .PHONY : seeta/common_alignment.cpp.o
 
 seeta/common_alignment.i: seeta/common_alignment.cpp.i
@@ -257,7 +260,7 @@ seeta/common_alignment.i: seeta/common_alignment.cpp.i
 
 # target to preprocess a source file
 seeta/common_alignment.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/common_alignment.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/common_alignment.cpp.i
 .PHONY : seeta/common_alignment.cpp.i
 
 seeta/common_alignment.s: seeta/common_alignment.cpp.s
@@ -266,7 +269,7 @@ seeta/common_alignment.s: seeta/common_alignment.cpp.s
 
 # target to generate assembly for a file
 seeta/common_alignment.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/common_alignment.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/common_alignment.cpp.s
 .PHONY : seeta/common_alignment.cpp.s
 
 seeta/graphics2d.o: seeta/graphics2d.cpp.o
@@ -275,7 +278,7 @@ seeta/graphics2d.o: seeta/graphics2d.cpp.o
 
 # target to build an object file
 seeta/graphics2d.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/graphics2d.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/graphics2d.cpp.o
 .PHONY : seeta/graphics2d.cpp.o
 
 seeta/graphics2d.i: seeta/graphics2d.cpp.i
@@ -284,7 +287,7 @@ seeta/graphics2d.i: seeta/graphics2d.cpp.i
 
 # target to preprocess a source file
 seeta/graphics2d.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/graphics2d.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/graphics2d.cpp.i
 .PHONY : seeta/graphics2d.cpp.i
 
 seeta/graphics2d.s: seeta/graphics2d.cpp.s
@@ -293,7 +296,7 @@ seeta/graphics2d.s: seeta/graphics2d.cpp.s
 
 # target to generate assembly for a file
 seeta/graphics2d.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/graphics2d.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/seeta/graphics2d.cpp.s
 .PHONY : seeta/graphics2d.cpp.s
 
 src/seeta/FaceLandmarker.o: src/seeta/FaceLandmarker.cpp.o
@@ -302,7 +305,7 @@ src/seeta/FaceLandmarker.o: src/seeta/FaceLandmarker.cpp.o
 
 # target to build an object file
 src/seeta/FaceLandmarker.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/src/seeta/FaceLandmarker.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/src/seeta/FaceLandmarker.cpp.o
 .PHONY : src/seeta/FaceLandmarker.cpp.o
 
 src/seeta/FaceLandmarker.i: src/seeta/FaceLandmarker.cpp.i
@@ -311,7 +314,7 @@ src/seeta/FaceLandmarker.i: src/seeta/FaceLandmarker.cpp.i
 
 # target to preprocess a source file
 src/seeta/FaceLandmarker.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/src/seeta/FaceLandmarker.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/src/seeta/FaceLandmarker.cpp.i
 .PHONY : src/seeta/FaceLandmarker.cpp.i
 
 src/seeta/FaceLandmarker.s: src/seeta/FaceLandmarker.cpp.s
@@ -320,7 +323,7 @@ src/seeta/FaceLandmarker.s: src/seeta/FaceLandmarker.cpp.s
 
 # target to generate assembly for a file
 src/seeta/FaceLandmarker.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/src/seeta/FaceLandmarker.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/src/seeta/FaceLandmarker.cpp.s
 .PHONY : src/seeta/FaceLandmarker.cpp.s
 
 # Help Target

@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Command-line flag to silence nested $(MAKE).
+$(VERBOSE)MAKESILENT = -s
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -73,18 +76,6 @@ CMAKE_BINARY_DIR = /home/hustccc/SeetaFace2/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -96,38 +87,6 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # Special rule for the target install
 install: preinstall
@@ -141,16 +100,60 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/hustccc/SeetaFace2/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles /home/hustccc/SeetaFace2/build/example/FaceRecognition/CMakeFiles/progress.marks
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 example/FaceRecognition/all
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 example/FaceRecognition/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 example/FaceRecognition/clean
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 example/FaceRecognition/clean
 .PHONY : clean
 
 # The main clean target
@@ -160,12 +163,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 example/FaceRecognition/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 example/FaceRecognition/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 example/FaceRecognition/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 example/FaceRecognition/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -175,7 +178,7 @@ depend:
 
 # Convenience name for target.
 example/FaceRecognition/CMakeFiles/FaceRecognition.dir/rule:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 example/FaceRecognition/CMakeFiles/FaceRecognition.dir/rule
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 example/FaceRecognition/CMakeFiles/FaceRecognition.dir/rule
 .PHONY : example/FaceRecognition/CMakeFiles/FaceRecognition.dir/rule
 
 # Convenience name for target.
@@ -185,7 +188,7 @@ FaceRecognition: example/FaceRecognition/CMakeFiles/FaceRecognition.dir/rule
 
 # fast build rule for target.
 FaceRecognition/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build
 .PHONY : FaceRecognition/fast
 
 KNNFaceRecognizer.o: KNNFaceRecognizer.cpp.o
@@ -194,7 +197,7 @@ KNNFaceRecognizer.o: KNNFaceRecognizer.cpp.o
 
 # target to build an object file
 KNNFaceRecognizer.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/KNNFaceRecognizer.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/KNNFaceRecognizer.cpp.o
 .PHONY : KNNFaceRecognizer.cpp.o
 
 KNNFaceRecognizer.i: KNNFaceRecognizer.cpp.i
@@ -203,7 +206,7 @@ KNNFaceRecognizer.i: KNNFaceRecognizer.cpp.i
 
 # target to preprocess a source file
 KNNFaceRecognizer.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/KNNFaceRecognizer.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/KNNFaceRecognizer.cpp.i
 .PHONY : KNNFaceRecognizer.cpp.i
 
 KNNFaceRecognizer.s: KNNFaceRecognizer.cpp.s
@@ -212,7 +215,7 @@ KNNFaceRecognizer.s: KNNFaceRecognizer.cpp.s
 
 # target to generate assembly for a file
 KNNFaceRecognizer.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/KNNFaceRecognizer.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/KNNFaceRecognizer.cpp.s
 .PHONY : KNNFaceRecognizer.cpp.s
 
 # Help Target

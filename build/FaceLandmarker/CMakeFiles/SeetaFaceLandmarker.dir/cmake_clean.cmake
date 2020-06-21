@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "../bin/libSeetaFaceLandmarker.pdb"
   "../bin/libSeetaFaceLandmarker.so"
-  "../bin/libSeetaFaceLandmarker.so.11d9063"
+  "../bin/libSeetaFaceLandmarker.so.21951fe"
   "CMakeFiles/SeetaFaceLandmarker.dir/seeta/FaceLandmarkerPrivate.cpp.o"
   "CMakeFiles/SeetaFaceLandmarker.dir/seeta/ImageProcess.cpp.o"
   "CMakeFiles/SeetaFaceLandmarker.dir/seeta/common_alignment.cpp.o"

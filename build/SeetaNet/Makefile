@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Command-line flag to silence nested $(MAKE).
+$(VERBOSE)MAKESILENT = -s
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -97,28 +100,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -141,16 +122,38 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/hustccc/SeetaFace2/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles /home/hustccc/SeetaFace2/build/SeetaNet/CMakeFiles/progress.marks
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 SeetaNet/all
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaNet/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 SeetaNet/clean
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaNet/clean
 .PHONY : clean
 
 # The main clean target
@@ -160,12 +163,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 SeetaNet/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaNet/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 SeetaNet/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaNet/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -175,7 +178,7 @@ depend:
 
 # Convenience name for target.
 SeetaNet/CMakeFiles/SeetaNet.dir/rule:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 SeetaNet/CMakeFiles/SeetaNet.dir/rule
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaNet/CMakeFiles/SeetaNet.dir/rule
 .PHONY : SeetaNet/CMakeFiles/SeetaNet.dir/rule
 
 # Convenience name for target.
@@ -185,7 +188,7 @@ SeetaNet: SeetaNet/CMakeFiles/SeetaNet.dir/rule
 
 # fast build rule for target.
 SeetaNet/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/build
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/build
 .PHONY : SeetaNet/fast
 
 src/ReadFromSeetaNetLayer.o: src/ReadFromSeetaNetLayer.cpp.o
@@ -194,7 +197,7 @@ src/ReadFromSeetaNetLayer.o: src/ReadFromSeetaNetLayer.cpp.o
 
 # target to build an object file
 src/ReadFromSeetaNetLayer.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/ReadFromSeetaNetLayer.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/ReadFromSeetaNetLayer.cpp.o
 .PHONY : src/ReadFromSeetaNetLayer.cpp.o
 
 src/ReadFromSeetaNetLayer.i: src/ReadFromSeetaNetLayer.cpp.i
@@ -203,7 +206,7 @@ src/ReadFromSeetaNetLayer.i: src/ReadFromSeetaNetLayer.cpp.i
 
 # target to preprocess a source file
 src/ReadFromSeetaNetLayer.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/ReadFromSeetaNetLayer.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/ReadFromSeetaNetLayer.cpp.i
 .PHONY : src/ReadFromSeetaNetLayer.cpp.i
 
 src/ReadFromSeetaNetLayer.s: src/ReadFromSeetaNetLayer.cpp.s
@@ -212,7 +215,7 @@ src/ReadFromSeetaNetLayer.s: src/ReadFromSeetaNetLayer.cpp.s
 
 # target to generate assembly for a file
 src/ReadFromSeetaNetLayer.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/ReadFromSeetaNetLayer.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/ReadFromSeetaNetLayer.cpp.s
 .PHONY : src/ReadFromSeetaNetLayer.cpp.s
 
 src/SeetaNet.o: src/SeetaNet.cpp.o
@@ -221,7 +224,7 @@ src/SeetaNet.o: src/SeetaNet.cpp.o
 
 # target to build an object file
 src/SeetaNet.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNet.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNet.cpp.o
 .PHONY : src/SeetaNet.cpp.o
 
 src/SeetaNet.i: src/SeetaNet.cpp.i
@@ -230,7 +233,7 @@ src/SeetaNet.i: src/SeetaNet.cpp.i
 
 # target to preprocess a source file
 src/SeetaNet.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNet.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNet.cpp.i
 .PHONY : src/SeetaNet.cpp.i
 
 src/SeetaNet.s: src/SeetaNet.cpp.s
@@ -239,7 +242,7 @@ src/SeetaNet.s: src/SeetaNet.cpp.s
 
 # target to generate assembly for a file
 src/SeetaNet.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNet.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNet.cpp.s
 .PHONY : src/SeetaNet.cpp.s
 
 src/SeetaNetForward.o: src/SeetaNetForward.cpp.o
@@ -248,7 +251,7 @@ src/SeetaNetForward.o: src/SeetaNetForward.cpp.o
 
 # target to build an object file
 src/SeetaNetForward.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetForward.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetForward.cpp.o
 .PHONY : src/SeetaNetForward.cpp.o
 
 src/SeetaNetForward.i: src/SeetaNetForward.cpp.i
@@ -257,7 +260,7 @@ src/SeetaNetForward.i: src/SeetaNetForward.cpp.i
 
 # target to preprocess a source file
 src/SeetaNetForward.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetForward.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetForward.cpp.i
 .PHONY : src/SeetaNetForward.cpp.i
 
 src/SeetaNetForward.s: src/SeetaNetForward.cpp.s
@@ -266,7 +269,7 @@ src/SeetaNetForward.s: src/SeetaNetForward.cpp.s
 
 # target to generate assembly for a file
 src/SeetaNetForward.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetForward.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetForward.cpp.s
 .PHONY : src/SeetaNetForward.cpp.s
 
 src/SeetaNetIm2Col.o: src/SeetaNetIm2Col.cpp.o
@@ -275,7 +278,7 @@ src/SeetaNetIm2Col.o: src/SeetaNetIm2Col.cpp.o
 
 # target to build an object file
 src/SeetaNetIm2Col.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetIm2Col.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetIm2Col.cpp.o
 .PHONY : src/SeetaNetIm2Col.cpp.o
 
 src/SeetaNetIm2Col.i: src/SeetaNetIm2Col.cpp.i
@@ -284,7 +287,7 @@ src/SeetaNetIm2Col.i: src/SeetaNetIm2Col.cpp.i
 
 # target to preprocess a source file
 src/SeetaNetIm2Col.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetIm2Col.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetIm2Col.cpp.i
 .PHONY : src/SeetaNetIm2Col.cpp.i
 
 src/SeetaNetIm2Col.s: src/SeetaNetIm2Col.cpp.s
@@ -293,7 +296,7 @@ src/SeetaNetIm2Col.s: src/SeetaNetIm2Col.cpp.s
 
 # target to generate assembly for a file
 src/SeetaNetIm2Col.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetIm2Col.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetIm2Col.cpp.s
 .PHONY : src/SeetaNetIm2Col.cpp.s
 
 src/SeetaNetMathCPU.o: src/SeetaNetMathCPU.cpp.o
@@ -302,7 +305,7 @@ src/SeetaNetMathCPU.o: src/SeetaNetMathCPU.cpp.o
 
 # target to build an object file
 src/SeetaNetMathCPU.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetMathCPU.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetMathCPU.cpp.o
 .PHONY : src/SeetaNetMathCPU.cpp.o
 
 src/SeetaNetMathCPU.i: src/SeetaNetMathCPU.cpp.i
@@ -311,7 +314,7 @@ src/SeetaNetMathCPU.i: src/SeetaNetMathCPU.cpp.i
 
 # target to preprocess a source file
 src/SeetaNetMathCPU.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetMathCPU.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetMathCPU.cpp.i
 .PHONY : src/SeetaNetMathCPU.cpp.i
 
 src/SeetaNetMathCPU.s: src/SeetaNetMathCPU.cpp.s
@@ -320,7 +323,7 @@ src/SeetaNetMathCPU.s: src/SeetaNetMathCPU.cpp.s
 
 # target to generate assembly for a file
 src/SeetaNetMathCPU.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetMathCPU.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetMathCPU.cpp.s
 .PHONY : src/SeetaNetMathCPU.cpp.s
 
 src/SeetaNetParseProto.o: src/SeetaNetParseProto.cpp.o
@@ -329,7 +332,7 @@ src/SeetaNetParseProto.o: src/SeetaNetParseProto.cpp.o
 
 # target to build an object file
 src/SeetaNetParseProto.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetParseProto.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetParseProto.cpp.o
 .PHONY : src/SeetaNetParseProto.cpp.o
 
 src/SeetaNetParseProto.i: src/SeetaNetParseProto.cpp.i
@@ -338,7 +341,7 @@ src/SeetaNetParseProto.i: src/SeetaNetParseProto.cpp.i
 
 # target to preprocess a source file
 src/SeetaNetParseProto.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetParseProto.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetParseProto.cpp.i
 .PHONY : src/SeetaNetParseProto.cpp.i
 
 src/SeetaNetParseProto.s: src/SeetaNetParseProto.cpp.s
@@ -347,7 +350,7 @@ src/SeetaNetParseProto.s: src/SeetaNetParseProto.cpp.s
 
 # target to generate assembly for a file
 src/SeetaNetParseProto.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetParseProto.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetParseProto.cpp.s
 .PHONY : src/SeetaNetParseProto.cpp.s
 
 src/SeetaNetProto.o: src/SeetaNetProto.cpp.o
@@ -356,7 +359,7 @@ src/SeetaNetProto.o: src/SeetaNetProto.cpp.o
 
 # target to build an object file
 src/SeetaNetProto.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetProto.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetProto.cpp.o
 .PHONY : src/SeetaNetProto.cpp.o
 
 src/SeetaNetProto.i: src/SeetaNetProto.cpp.i
@@ -365,7 +368,7 @@ src/SeetaNetProto.i: src/SeetaNetProto.cpp.i
 
 # target to preprocess a source file
 src/SeetaNetProto.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetProto.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetProto.cpp.i
 .PHONY : src/SeetaNetProto.cpp.i
 
 src/SeetaNetProto.s: src/SeetaNetProto.cpp.s
@@ -374,7 +377,7 @@ src/SeetaNetProto.s: src/SeetaNetProto.cpp.s
 
 # target to generate assembly for a file
 src/SeetaNetProto.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetProto.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/SeetaNetProto.cpp.s
 .PHONY : src/SeetaNetProto.cpp.s
 
 src/orz/mem/pot.o: src/orz/mem/pot.cpp.o
@@ -383,7 +386,7 @@ src/orz/mem/pot.o: src/orz/mem/pot.cpp.o
 
 # target to build an object file
 src/orz/mem/pot.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/pot.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/pot.cpp.o
 .PHONY : src/orz/mem/pot.cpp.o
 
 src/orz/mem/pot.i: src/orz/mem/pot.cpp.i
@@ -392,7 +395,7 @@ src/orz/mem/pot.i: src/orz/mem/pot.cpp.i
 
 # target to preprocess a source file
 src/orz/mem/pot.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/pot.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/pot.cpp.i
 .PHONY : src/orz/mem/pot.cpp.i
 
 src/orz/mem/pot.s: src/orz/mem/pot.cpp.s
@@ -401,7 +404,7 @@ src/orz/mem/pot.s: src/orz/mem/pot.cpp.s
 
 # target to generate assembly for a file
 src/orz/mem/pot.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/pot.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/pot.cpp.s
 .PHONY : src/orz/mem/pot.cpp.s
 
 src/orz/mem/vat.o: src/orz/mem/vat.cpp.o
@@ -410,7 +413,7 @@ src/orz/mem/vat.o: src/orz/mem/vat.cpp.o
 
 # target to build an object file
 src/orz/mem/vat.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/vat.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/vat.cpp.o
 .PHONY : src/orz/mem/vat.cpp.o
 
 src/orz/mem/vat.i: src/orz/mem/vat.cpp.i
@@ -419,7 +422,7 @@ src/orz/mem/vat.i: src/orz/mem/vat.cpp.i
 
 # target to preprocess a source file
 src/orz/mem/vat.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/vat.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/vat.cpp.i
 .PHONY : src/orz/mem/vat.cpp.i
 
 src/orz/mem/vat.s: src/orz/mem/vat.cpp.s
@@ -428,7 +431,7 @@ src/orz/mem/vat.s: src/orz/mem/vat.cpp.s
 
 # target to generate assembly for a file
 src/orz/mem/vat.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/vat.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/mem/vat.cpp.s
 .PHONY : src/orz/mem/vat.cpp.s
 
 src/orz/sync/canyon.o: src/orz/sync/canyon.cpp.o
@@ -437,7 +440,7 @@ src/orz/sync/canyon.o: src/orz/sync/canyon.cpp.o
 
 # target to build an object file
 src/orz/sync/canyon.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/canyon.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/canyon.cpp.o
 .PHONY : src/orz/sync/canyon.cpp.o
 
 src/orz/sync/canyon.i: src/orz/sync/canyon.cpp.i
@@ -446,7 +449,7 @@ src/orz/sync/canyon.i: src/orz/sync/canyon.cpp.i
 
 # target to preprocess a source file
 src/orz/sync/canyon.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/canyon.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/canyon.cpp.i
 .PHONY : src/orz/sync/canyon.cpp.i
 
 src/orz/sync/canyon.s: src/orz/sync/canyon.cpp.s
@@ -455,7 +458,7 @@ src/orz/sync/canyon.s: src/orz/sync/canyon.cpp.s
 
 # target to generate assembly for a file
 src/orz/sync/canyon.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/canyon.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/canyon.cpp.s
 .PHONY : src/orz/sync/canyon.cpp.s
 
 src/orz/sync/cartridge.o: src/orz/sync/cartridge.cpp.o
@@ -464,7 +467,7 @@ src/orz/sync/cartridge.o: src/orz/sync/cartridge.cpp.o
 
 # target to build an object file
 src/orz/sync/cartridge.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/cartridge.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/cartridge.cpp.o
 .PHONY : src/orz/sync/cartridge.cpp.o
 
 src/orz/sync/cartridge.i: src/orz/sync/cartridge.cpp.i
@@ -473,7 +476,7 @@ src/orz/sync/cartridge.i: src/orz/sync/cartridge.cpp.i
 
 # target to preprocess a source file
 src/orz/sync/cartridge.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/cartridge.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/cartridge.cpp.i
 .PHONY : src/orz/sync/cartridge.cpp.i
 
 src/orz/sync/cartridge.s: src/orz/sync/cartridge.cpp.s
@@ -482,7 +485,7 @@ src/orz/sync/cartridge.s: src/orz/sync/cartridge.cpp.s
 
 # target to generate assembly for a file
 src/orz/sync/cartridge.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/cartridge.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/cartridge.cpp.s
 .PHONY : src/orz/sync/cartridge.cpp.s
 
 src/orz/sync/shotgun.o: src/orz/sync/shotgun.cpp.o
@@ -491,7 +494,7 @@ src/orz/sync/shotgun.o: src/orz/sync/shotgun.cpp.o
 
 # target to build an object file
 src/orz/sync/shotgun.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/shotgun.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/shotgun.cpp.o
 .PHONY : src/orz/sync/shotgun.cpp.o
 
 src/orz/sync/shotgun.i: src/orz/sync/shotgun.cpp.i
@@ -500,7 +503,7 @@ src/orz/sync/shotgun.i: src/orz/sync/shotgun.cpp.i
 
 # target to preprocess a source file
 src/orz/sync/shotgun.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/shotgun.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/shotgun.cpp.i
 .PHONY : src/orz/sync/shotgun.cpp.i
 
 src/orz/sync/shotgun.s: src/orz/sync/shotgun.cpp.s
@@ -509,7 +512,7 @@ src/orz/sync/shotgun.s: src/orz/sync/shotgun.cpp.s
 
 # target to generate assembly for a file
 src/orz/sync/shotgun.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/shotgun.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/sync/shotgun.cpp.s
 .PHONY : src/orz/sync/shotgun.cpp.s
 
 src/orz/tools/box.o: src/orz/tools/box.cpp.o
@@ -518,7 +521,7 @@ src/orz/tools/box.o: src/orz/tools/box.cpp.o
 
 # target to build an object file
 src/orz/tools/box.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/tools/box.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/tools/box.cpp.o
 .PHONY : src/orz/tools/box.cpp.o
 
 src/orz/tools/box.i: src/orz/tools/box.cpp.i
@@ -527,7 +530,7 @@ src/orz/tools/box.i: src/orz/tools/box.cpp.i
 
 # target to preprocess a source file
 src/orz/tools/box.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/tools/box.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/tools/box.cpp.i
 .PHONY : src/orz/tools/box.cpp.i
 
 src/orz/tools/box.s: src/orz/tools/box.cpp.s
@@ -536,7 +539,7 @@ src/orz/tools/box.s: src/orz/tools/box.cpp.s
 
 # target to generate assembly for a file
 src/orz/tools/box.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/tools/box.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/src/orz/tools/box.cpp.s
 .PHONY : src/orz/tools/box.cpp.s
 
 # Help Target

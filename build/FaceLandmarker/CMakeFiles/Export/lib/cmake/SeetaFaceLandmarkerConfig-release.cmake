@@ -9,12 +9,12 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set_property(TARGET SeetaFace::SeetaFaceLandmarker APPEND PROPERTY IMPORTED_CONFIGURATIONS RELEASE)
 set_target_properties(SeetaFace::SeetaFaceLandmarker PROPERTIES
   IMPORTED_LINK_INTERFACE_LIBRARIES_RELEASE "SeetaFace::SeetaNet"
-  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/libSeetaFaceLandmarker.so.11d9063"
-  IMPORTED_SONAME_RELEASE "libSeetaFaceLandmarker.so.11d9063"
+  IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/libSeetaFaceLandmarker.so.21951fe"
+  IMPORTED_SONAME_RELEASE "libSeetaFaceLandmarker.so.21951fe"
   )
 
 list(APPEND _IMPORT_CHECK_TARGETS SeetaFace::SeetaFaceLandmarker )
-list(APPEND _IMPORT_CHECK_FILES_FOR_SeetaFace::SeetaFaceLandmarker "${_IMPORT_PREFIX}/lib/libSeetaFaceLandmarker.so.11d9063" )
+list(APPEND _IMPORT_CHECK_FILES_FOR_SeetaFace::SeetaFaceLandmarker "${_IMPORT_PREFIX}/lib/libSeetaFaceLandmarker.so.21951fe" )
 
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)

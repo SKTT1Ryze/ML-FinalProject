@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Command-line flag to silence nested $(MAKE).
+$(VERBOSE)MAKESILENT = -s
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -73,17 +76,6 @@ CMAKE_BINARY_DIR = /home/hustccc/SeetaFace2/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -95,39 +87,6 @@ install/strip/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # Special rule for the target install
 install: preinstall
@@ -141,16 +100,60 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # The main all target
 all: cmake_check_build_system
 	cd /home/hustccc/SeetaFace2/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles /home/hustccc/SeetaFace2/build/FaceDetector/CMakeFiles/progress.marks
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceDetector/all
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceDetector/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceDetector/clean
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceDetector/clean
 .PHONY : clean
 
 # The main clean target
@@ -160,12 +163,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceDetector/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceDetector/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceDetector/preinstall
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceDetector/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -175,7 +178,7 @@ depend:
 
 # Convenience name for target.
 FaceDetector/CMakeFiles/SeetaFaceDetector.dir/rule:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f CMakeFiles/Makefile2 FaceDetector/CMakeFiles/SeetaFaceDetector.dir/rule
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceDetector/CMakeFiles/SeetaFaceDetector.dir/rule
 .PHONY : FaceDetector/CMakeFiles/SeetaFaceDetector.dir/rule
 
 # Convenience name for target.
@@ -185,7 +188,7 @@ SeetaFaceDetector: FaceDetector/CMakeFiles/SeetaFaceDetector.dir/rule
 
 # fast build rule for target.
 SeetaFaceDetector/fast:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build
 .PHONY : SeetaFaceDetector/fast
 
 seeta/FaceDetectorPrivate.o: seeta/FaceDetectorPrivate.cpp.o
@@ -194,7 +197,7 @@ seeta/FaceDetectorPrivate.o: seeta/FaceDetectorPrivate.cpp.o
 
 # target to build an object file
 seeta/FaceDetectorPrivate.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/FaceDetectorPrivate.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/FaceDetectorPrivate.cpp.o
 .PHONY : seeta/FaceDetectorPrivate.cpp.o
 
 seeta/FaceDetectorPrivate.i: seeta/FaceDetectorPrivate.cpp.i
@@ -203,7 +206,7 @@ seeta/FaceDetectorPrivate.i: seeta/FaceDetectorPrivate.cpp.i
 
 # target to preprocess a source file
 seeta/FaceDetectorPrivate.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/FaceDetectorPrivate.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/FaceDetectorPrivate.cpp.i
 .PHONY : seeta/FaceDetectorPrivate.cpp.i
 
 seeta/FaceDetectorPrivate.s: seeta/FaceDetectorPrivate.cpp.s
@@ -212,7 +215,7 @@ seeta/FaceDetectorPrivate.s: seeta/FaceDetectorPrivate.cpp.s
 
 # target to generate assembly for a file
 seeta/FaceDetectorPrivate.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/FaceDetectorPrivate.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/FaceDetectorPrivate.cpp.s
 .PHONY : seeta/FaceDetectorPrivate.cpp.s
 
 seeta/ImageProcess.o: seeta/ImageProcess.cpp.o
@@ -221,7 +224,7 @@ seeta/ImageProcess.o: seeta/ImageProcess.cpp.o
 
 # target to build an object file
 seeta/ImageProcess.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/ImageProcess.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/ImageProcess.cpp.o
 .PHONY : seeta/ImageProcess.cpp.o
 
 seeta/ImageProcess.i: seeta/ImageProcess.cpp.i
@@ -230,7 +233,7 @@ seeta/ImageProcess.i: seeta/ImageProcess.cpp.i
 
 # target to preprocess a source file
 seeta/ImageProcess.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/ImageProcess.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/ImageProcess.cpp.i
 .PHONY : seeta/ImageProcess.cpp.i
 
 seeta/ImageProcess.s: seeta/ImageProcess.cpp.s
@@ -239,7 +242,7 @@ seeta/ImageProcess.s: seeta/ImageProcess.cpp.s
 
 # target to generate assembly for a file
 seeta/ImageProcess.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/ImageProcess.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/ImageProcess.cpp.s
 .PHONY : seeta/ImageProcess.cpp.s
 
 seeta/common_alignment.o: seeta/common_alignment.cpp.o
@@ -248,7 +251,7 @@ seeta/common_alignment.o: seeta/common_alignment.cpp.o
 
 # target to build an object file
 seeta/common_alignment.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/common_alignment.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/common_alignment.cpp.o
 .PHONY : seeta/common_alignment.cpp.o
 
 seeta/common_alignment.i: seeta/common_alignment.cpp.i
@@ -257,7 +260,7 @@ seeta/common_alignment.i: seeta/common_alignment.cpp.i
 
 # target to preprocess a source file
 seeta/common_alignment.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/common_alignment.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/common_alignment.cpp.i
 .PHONY : seeta/common_alignment.cpp.i
 
 seeta/common_alignment.s: seeta/common_alignment.cpp.s
@@ -266,7 +269,7 @@ seeta/common_alignment.s: seeta/common_alignment.cpp.s
 
 # target to generate assembly for a file
 seeta/common_alignment.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/common_alignment.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/common_alignment.cpp.s
 .PHONY : seeta/common_alignment.cpp.s
 
 seeta/graphics2d.o: seeta/graphics2d.cpp.o
@@ -275,7 +278,7 @@ seeta/graphics2d.o: seeta/graphics2d.cpp.o
 
 # target to build an object file
 seeta/graphics2d.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/graphics2d.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/graphics2d.cpp.o
 .PHONY : seeta/graphics2d.cpp.o
 
 seeta/graphics2d.i: seeta/graphics2d.cpp.i
@@ -284,7 +287,7 @@ seeta/graphics2d.i: seeta/graphics2d.cpp.i
 
 # target to preprocess a source file
 seeta/graphics2d.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/graphics2d.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/graphics2d.cpp.i
 .PHONY : seeta/graphics2d.cpp.i
 
 seeta/graphics2d.s: seeta/graphics2d.cpp.s
@@ -293,7 +296,7 @@ seeta/graphics2d.s: seeta/graphics2d.cpp.s
 
 # target to generate assembly for a file
 seeta/graphics2d.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/graphics2d.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/seeta/graphics2d.cpp.s
 .PHONY : seeta/graphics2d.cpp.s
 
 src/seeta/FaceDetector.o: src/seeta/FaceDetector.cpp.o
@@ -302,7 +305,7 @@ src/seeta/FaceDetector.o: src/seeta/FaceDetector.cpp.o
 
 # target to build an object file
 src/seeta/FaceDetector.cpp.o:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/src/seeta/FaceDetector.cpp.o
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/src/seeta/FaceDetector.cpp.o
 .PHONY : src/seeta/FaceDetector.cpp.o
 
 src/seeta/FaceDetector.i: src/seeta/FaceDetector.cpp.i
@@ -311,7 +314,7 @@ src/seeta/FaceDetector.i: src/seeta/FaceDetector.cpp.i
 
 # target to preprocess a source file
 src/seeta/FaceDetector.cpp.i:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/src/seeta/FaceDetector.cpp.i
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/src/seeta/FaceDetector.cpp.i
 .PHONY : src/seeta/FaceDetector.cpp.i
 
 src/seeta/FaceDetector.s: src/seeta/FaceDetector.cpp.s
@@ -320,7 +323,7 @@ src/seeta/FaceDetector.s: src/seeta/FaceDetector.cpp.s
 
 # target to generate assembly for a file
 src/seeta/FaceDetector.cpp.s:
-	cd /home/hustccc/SeetaFace2/build && $(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/src/seeta/FaceDetector.cpp.s
+	cd /home/hustccc/SeetaFace2/build && $(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/src/seeta/FaceDetector.cpp.s
 .PHONY : src/seeta/FaceDetector.cpp.s
 
 # Help Target

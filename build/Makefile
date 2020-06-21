@@ -40,6 +40,9 @@ default_target: all
 .SUFFIXES: .hpux_make_needs_suffix_list
 
 
+# Command-line flag to silence nested $(MAKE).
+$(VERBOSE)MAKESILENT = -s
+
 # Suppress display of executed commands.
 $(VERBOSE).SILENT:
 
@@ -97,28 +100,6 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -141,16 +122,38 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles /home/hustccc/SeetaFace2/build/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/hustccc/SeetaFace2/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean
 .PHONY : clean
 
 # The main clean target
@@ -160,12 +163,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -178,12 +181,12 @@ depend:
 
 # Build rule for target.
 uninstall: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 uninstall
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uninstall
 .PHONY : uninstall
 
 # fast build rule for target.
 uninstall/fast:
-	$(MAKE) -f CMakeFiles/uninstall.dir/build.make CMakeFiles/uninstall.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/uninstall.dir/build.make CMakeFiles/uninstall.dir/build
 .PHONY : uninstall/fast
 
 #=============================================================================
@@ -191,12 +194,12 @@ uninstall/fast:
 
 # Build rule for target.
 SeetaNet: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 SeetaNet
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaNet
 .PHONY : SeetaNet
 
 # fast build rule for target.
 SeetaNet/fast:
-	$(MAKE) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/build
+	$(MAKE) $(MAKESILENT) -f SeetaNet/CMakeFiles/SeetaNet.dir/build.make SeetaNet/CMakeFiles/SeetaNet.dir/build
 .PHONY : SeetaNet/fast
 
 #=============================================================================
@@ -204,12 +207,12 @@ SeetaNet/fast:
 
 # Build rule for target.
 SeetaFaceDetector: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 SeetaFaceDetector
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaFaceDetector
 .PHONY : SeetaFaceDetector
 
 # fast build rule for target.
 SeetaFaceDetector/fast:
-	$(MAKE) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build
+	$(MAKE) $(MAKESILENT) -f FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build.make FaceDetector/CMakeFiles/SeetaFaceDetector.dir/build
 .PHONY : SeetaFaceDetector/fast
 
 #=============================================================================
@@ -217,12 +220,12 @@ SeetaFaceDetector/fast:
 
 # Build rule for target.
 SeetaFaceTracker: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 SeetaFaceTracker
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaFaceTracker
 .PHONY : SeetaFaceTracker
 
 # fast build rule for target.
 SeetaFaceTracker/fast:
-	$(MAKE) -f FaceTracker/CMakeFiles/SeetaFaceTracker.dir/build.make FaceTracker/CMakeFiles/SeetaFaceTracker.dir/build
+	$(MAKE) $(MAKESILENT) -f FaceTracker/CMakeFiles/SeetaFaceTracker.dir/build.make FaceTracker/CMakeFiles/SeetaFaceTracker.dir/build
 .PHONY : SeetaFaceTracker/fast
 
 #=============================================================================
@@ -230,12 +233,12 @@ SeetaFaceTracker/fast:
 
 # Build rule for target.
 SeetaFaceLandmarker: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 SeetaFaceLandmarker
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaFaceLandmarker
 .PHONY : SeetaFaceLandmarker
 
 # fast build rule for target.
 SeetaFaceLandmarker/fast:
-	$(MAKE) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build
+	$(MAKE) $(MAKESILENT) -f FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build.make FaceLandmarker/CMakeFiles/SeetaFaceLandmarker.dir/build
 .PHONY : SeetaFaceLandmarker/fast
 
 #=============================================================================
@@ -243,12 +246,12 @@ SeetaFaceLandmarker/fast:
 
 # Build rule for target.
 SeetaFaceRecognizer: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 SeetaFaceRecognizer
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaFaceRecognizer
 .PHONY : SeetaFaceRecognizer
 
 # fast build rule for target.
 SeetaFaceRecognizer/fast:
-	$(MAKE) -f FaceRecognizer/CMakeFiles/SeetaFaceRecognizer.dir/build.make FaceRecognizer/CMakeFiles/SeetaFaceRecognizer.dir/build
+	$(MAKE) $(MAKESILENT) -f FaceRecognizer/CMakeFiles/SeetaFaceRecognizer.dir/build.make FaceRecognizer/CMakeFiles/SeetaFaceRecognizer.dir/build
 .PHONY : SeetaFaceRecognizer/fast
 
 #=============================================================================
@@ -256,12 +259,12 @@ SeetaFaceRecognizer/fast:
 
 # Build rule for target.
 SeetaQualityAssessor: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 SeetaQualityAssessor
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 SeetaQualityAssessor
 .PHONY : SeetaQualityAssessor
 
 # fast build rule for target.
 SeetaQualityAssessor/fast:
-	$(MAKE) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build
+	$(MAKE) $(MAKESILENT) -f QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build.make QualityAssessor/CMakeFiles/SeetaQualityAssessor.dir/build
 .PHONY : SeetaQualityAssessor/fast
 
 #=============================================================================
@@ -269,12 +272,12 @@ SeetaQualityAssessor/fast:
 
 # Build rule for target.
 points81: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 points81
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 points81
 .PHONY : points81
 
 # fast build rule for target.
 points81/fast:
-	$(MAKE) -f example/points81/CMakeFiles/points81.dir/build.make example/points81/CMakeFiles/points81.dir/build
+	$(MAKE) $(MAKESILENT) -f example/points81/CMakeFiles/points81.dir/build.make example/points81/CMakeFiles/points81.dir/build
 .PHONY : points81/fast
 
 #=============================================================================
@@ -282,12 +285,12 @@ points81/fast:
 
 # Build rule for target.
 search: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 search
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 search
 .PHONY : search
 
 # fast build rule for target.
 search/fast:
-	$(MAKE) -f example/search/CMakeFiles/search.dir/build.make example/search/CMakeFiles/search.dir/build
+	$(MAKE) $(MAKESILENT) -f example/search/CMakeFiles/search.dir/build.make example/search/CMakeFiles/search.dir/build
 .PHONY : search/fast
 
 #=============================================================================
@@ -295,12 +298,12 @@ search/fast:
 
 # Build rule for target.
 tracking: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 tracking
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tracking
 .PHONY : tracking
 
 # fast build rule for target.
 tracking/fast:
-	$(MAKE) -f example/tracking/CMakeFiles/tracking.dir/build.make example/tracking/CMakeFiles/tracking.dir/build
+	$(MAKE) $(MAKESILENT) -f example/tracking/CMakeFiles/tracking.dir/build.make example/tracking/CMakeFiles/tracking.dir/build
 .PHONY : tracking/fast
 
 #=============================================================================
@@ -308,12 +311,12 @@ tracking/fast:
 
 # Build rule for target.
 crop_face: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 crop_face
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 crop_face
 .PHONY : crop_face
 
 # fast build rule for target.
 crop_face/fast:
-	$(MAKE) -f example/crop_face/CMakeFiles/crop_face.dir/build.make example/crop_face/CMakeFiles/crop_face.dir/build
+	$(MAKE) $(MAKESILENT) -f example/crop_face/CMakeFiles/crop_face.dir/build.make example/crop_face/CMakeFiles/crop_face.dir/build
 .PHONY : crop_face/fast
 
 #=============================================================================
@@ -321,12 +324,12 @@ crop_face/fast:
 
 # Build rule for target.
 test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 test
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
 .PHONY : test
 
 # fast build rule for target.
 test/fast:
-	$(MAKE) -f example/test/CMakeFiles/test.dir/build.make example/test/CMakeFiles/test.dir/build
+	$(MAKE) $(MAKESILENT) -f example/test/CMakeFiles/test.dir/build.make example/test/CMakeFiles/test.dir/build
 .PHONY : test/fast
 
 #=============================================================================
@@ -334,12 +337,12 @@ test/fast:
 
 # Build rule for target.
 FaceRecognition: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 FaceRecognition
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 FaceRecognition
 .PHONY : FaceRecognition
 
 # fast build rule for target.
 FaceRecognition/fast:
-	$(MAKE) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build
+	$(MAKE) $(MAKESILENT) -f example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build.make example/FaceRecognition/CMakeFiles/FaceRecognition.dir/build
 .PHONY : FaceRecognition/fast
 
 # Help Target

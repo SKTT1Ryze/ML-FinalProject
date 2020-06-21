@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: SeetaFaceRecognizer
 Description: SeetaFaceRecognizer module
-Version: 11d9063
+Version: 21951fe
 Requires: SeetaNet
 Requires.private: 
 Conflicts:

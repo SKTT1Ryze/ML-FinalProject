@@ -42,6 +42,7 @@ int main()
     GalleryImageFilename.push_back("7772_04.jpg");
     GalleryImageFilename.push_back("Faker1_02.jpg");
     GalleryImageFilename.push_back("Messi_10_01.jpg");
+    GalleryImageFilename.push_back("luweiqin1_10.jpg");
     std::vector<int64_t> GalleryIndex( GalleryImageFilename.size() );
     for( size_t i = 0; i < GalleryImageFilename.size(); ++i )
     {

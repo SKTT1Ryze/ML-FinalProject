@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: SeetaQualityAssessor
 Description: SeetaQualityAssessor module
-Version: 11d9063
+Version: 21951fe
 Requires: 
 Requires.private: 
 Conflicts:

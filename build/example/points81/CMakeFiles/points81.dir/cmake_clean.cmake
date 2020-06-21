@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "../../bin/points81"
-  "../../bin/points81-11d9063"
+  "../../bin/points81-21951fe"
   "../../bin/points81.pdb"
   "CMakeFiles/points81.dir/example.cpp.o"
 )
