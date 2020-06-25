@@ -39,7 +39,7 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/test-21951fe"
+      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/test-da1c589"
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/test"
       )
     if(EXISTS "${file}" AND
@@ -50,11 +50,11 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     endif()
   endforeach()
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES
-    "/home/hustccc/SeetaFace2/build/bin/test-21951fe"
+    "/home/hustccc/SeetaFace2/build/bin/test-da1c589"
     "/home/hustccc/SeetaFace2/build/bin/test"
     )
   foreach(file
-      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/test-21951fe"
+      "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/test-da1c589"
       "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/test"
       )
     if(EXISTS "${file}" AND

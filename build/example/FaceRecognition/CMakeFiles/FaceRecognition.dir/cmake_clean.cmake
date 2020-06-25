@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "../../bin/FaceRecognition"
-  "../../bin/FaceRecognition-21951fe"
+  "../../bin/FaceRecognition-da1c589"
   "../../bin/FaceRecognition.pdb"
   "CMakeFiles/FaceRecognition.dir/KNNFaceRecognizer.cpp.o"
 )

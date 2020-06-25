@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: SeetaFaceTracker
 Description: SeetaFaceTracker module
-Version: 21951fe
+Version: da1c589
 Requires: SeetaFaceDetector
 Requires.private: 
 Conflicts:

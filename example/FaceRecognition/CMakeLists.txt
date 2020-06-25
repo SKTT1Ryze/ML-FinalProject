@@ -1,6 +1,6 @@
 #
-# Author: Kang Lin<kl222@126.com>
-# Date  : 2019-08-20
+# Author: hustccc<1276675421@qq.com>
+# Date  : 2020-6-20
 #
 
 cmake_minimum_required(VERSION 2.8)

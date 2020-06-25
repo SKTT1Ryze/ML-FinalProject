@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "../bin/libSeetaFaceTracker.pdb"
   "../bin/libSeetaFaceTracker.so"
-  "../bin/libSeetaFaceTracker.so.21951fe"
+  "../bin/libSeetaFaceTracker.so.da1c589"
   "CMakeFiles/SeetaFaceTracker.dir/src/seeta/FaceTracker.cpp.o"
 )
 

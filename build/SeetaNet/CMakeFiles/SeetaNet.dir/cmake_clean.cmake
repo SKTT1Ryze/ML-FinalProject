@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "../bin/libSeetaNet.pdb"
   "../bin/libSeetaNet.so"
-  "../bin/libSeetaNet.so.21951fe"
+  "../bin/libSeetaNet.so.da1c589"
   "CMakeFiles/SeetaNet.dir/src/ReadFromSeetaNetLayer.cpp.o"
   "CMakeFiles/SeetaNet.dir/src/SeetaNet.cpp.o"
   "CMakeFiles/SeetaNet.dir/src/SeetaNetForward.cpp.o"

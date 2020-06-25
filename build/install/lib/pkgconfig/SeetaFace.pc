@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: SeetaFace2
 Description: SeetaFace2
-Version: 21951fe
+Version: da1c589
 Requires: SeetaQualityAssessor SeetaFaceRecognizer SeetaFaceLandmarker SeetaFaceTracker SeetaFaceDetector SeetaNet 
 Requires.private: 
 Conflicts:

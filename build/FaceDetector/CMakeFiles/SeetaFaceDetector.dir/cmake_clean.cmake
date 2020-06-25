@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "../bin/libSeetaFaceDetector.pdb"
   "../bin/libSeetaFaceDetector.so"
-  "../bin/libSeetaFaceDetector.so.21951fe"
+  "../bin/libSeetaFaceDetector.so.da1c589"
   "CMakeFiles/SeetaFaceDetector.dir/seeta/FaceDetectorPrivate.cpp.o"
   "CMakeFiles/SeetaFaceDetector.dir/seeta/ImageProcess.cpp.o"
   "CMakeFiles/SeetaFaceDetector.dir/seeta/common_alignment.cpp.o"
